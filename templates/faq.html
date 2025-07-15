@@ -1,0 +1,76 @@
+{% extends "components/base.html" %}
+
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block page_content %}
+<style>
+    /* Custom styling */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+    }
+
+    .faq-container {
+        text-align: center;
+    }
+
+    .faq-question {
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+    }
+
+    .faq-answer {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        color: #34495e;
+        padding: 0 1rem;
+    }
+
+    h1 {
+        text-align: center;
+        color: #1f3a93;
+        margin-bottom: 2rem;
+    }
+
+    hr {
+        margin: 2rem 0;
+        border: none;
+        height: 1px;
+        background-color: #e0e0e0;
+    }
+</style>
+<div class="" style="margin-top:4em;">
+    <div class="content">
+        <h2 class="content-head is-center">WNBR Frequently Asked Questions</h2>
+        <div class="pure-g">
+            <div class="pure-u-1">
+                <div class="faq-container">
+                    <h3 class="faq-question">Who can access WNBR sample reports?</h3>
+                    <p class="faq-answer">WNBR Primary Investigators and laboratory staff have access to reports. For other parties who need access, contact a WNBR Primary Investigator or the lab manager to discuss your needs and request access.</p>
+
+                    <hr>
+
+                    <h3 class="faq-question">How can I reset my password?</h3>
+                    <p class="faq-answer">To reset your password, contact a WNBR administrator using the form on the homepage of this website. Use the subject line: Reset Password.</p>
+
+                    <hr>
+
+                    <h3 class="faq-question">What sample information is available to researchers?</h3>
+                    <p class="faq-answer">Please use the form on the home page of this website to contact WNBR administrators to request a summary of data points available for samples.</p>
+
+                    <hr>
+
+                    <h3 class="faq-question">Can samples be requested through this site?</h3>
+                    <p class="faq-answer">Samples cannot be directly requested through this website. Please use the Sample Availability Request Form on the <a href="/biobank/index">Biorepository page</a> to contact our lab manager with your requirements and to discuss sample availability.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

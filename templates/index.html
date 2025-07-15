@@ -1,0 +1,181 @@
+{% extends "components/base.html" %}
+
+{% block page_title %}WNBR Homepage{% endblock %}
+
+{% block page_content %}
+
+<div class="video-background-mp4-test">
+  <video autoplay muted loop>
+    <source src="{{  url_for('static', filename='images/Biorepository3.mp4') }}" type="video/mp4">
+  </video>
+  <div class="content-mp4-test">
+    <!-- Your content goes here -->
+    <h1 style="--webkit-text-stroke: 4px white; text-stroke:4px white; font-size:3em;color:white;">Weill NeuroBioRepository</h1>
+    <!-- <p>This text appears over the video background</p> -->
+  </div>
+</div>
+<div class="content-wrapper">
+    <div class="content">
+        <h2 class="content-head is-center">Empowering the Next Era of Neurological Breakthroughs</h2>
+        <div class="pure-g">
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    
+                <h3 class="content-subhead">
+                    <i class="fa fa-vial"></i>
+		    <a href="{{ url_for('biobankindex') }}">
+                    Biorepository Services</a>
+                </h3>
+                <p>
+                    The Weill biobank specializes in the meticulous acquisition and management of blood and CSF specimens. 
+By adhering to the highest professional standards of ethical collection, storage, and distribution, we ensure that every 
+sample retains its integrity and scientific value.
+                </p> 
+            </div>
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-database"></i>
+		    <a href="{{ url_for('dataservicesindex') }}">
+                    Data Services</a>
+                </h3>
+                <p>
+                    Effective data management is just as critical as the physical samples themselves. 
+Our Laboratory Information Management System (LIMS) is designed for comprehensive sample tracking from collection to 
+distribution, as well as data annotation, and 
+efficient workflow management to support advanced research.
+                </p> 
+            </div> 
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-landmark"></i>
+                    <a href="{{ url_for('biobankteam') }}">Biobank Team</a>
+                </h3>
+                <p>
+                    The Weill Institute for Neurosciences at UCSF is guided by a team of visionary leaders dedicated to 
+advancing our understanding of the brain and nervous system. Through their expertise, commitment, and collaboration, they 
+drive pioneering research and transformative patient care that redefine the boundaries of neuroscience.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-question-circle"></i>
+                    <a href="{{ url_for('faq') }}">Frequently Asked Questions</a>
+                </h3>
+                <p>
+                    Have Questions?
+Explore our FAQ page to find answers to commonly asked questions about our services, research initiatives, and how to 
+partner with us. Whether you're curious about sample access, data management, or compliance standards, our FAQ is here to 
+help. Visit the page to learn more!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ribbon l-box-lrg pure-g">
+        <div class="l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5">
+            <img width="300" alt="File Icons" class="pure-img-responsive" src="{{ url_for('static', 
+filename='images/UCSF-Neurosciences-Building-01-B-766244236.jpg') }}">
+        </div>
+        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
+
+            <h2 class="content-head content-head-ribbon">Transforming Brain Health: UCSF’s Commitment to Neuroscience</h2>
+
+            <p>
+		Neurological research at UCSF has a rich history rooted in groundbreaking discoveries and a commitment to 
+advancing the understanding of the brain and nervous system. Today, UCSF continues to lead the way in neuroscience, 
+fostering a collaborative environment where cutting-edge research meets compassionate patient care.
+            </p>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2 class="content-head is-center">Have a question about the WNBR? Use our contact form below</h2>
+
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="message-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('index') }}" class="pure-form pure-form-stacked">
+                    {{ form.hidden_tag() }}
+                    <fieldset>
+
+{#                        <label for="name">Your Name</label>#}
+{#                        <input id="name" type="text" placeholder="Your Name">#}
+                    <div class="form-field">
+                        {{ form.name.label }}
+                        {{ form.name(class="pure-input-1") }}
+                        {% if form.name.errors %}
+                            {% for error in form.name.errors %}
+                                <span class="form-error">{{ error }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+{#                        <label for="email">Your Email</label>#}
+{#                        <input id="email" type="email" placeholder="Your Email">#}
+                    <div class="form-field">
+                        {{ form.email.label }}
+                        {{ form.email(class="pure-input-1") }}
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                <span class="form-error">{{ error }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field">
+                        {{ form.subject.label }}
+                        {{ form.subject(class="pure-input-1") }}
+                        {% if form.subject.errors %}
+                            {% for error in form.subject.errors %}
+                                <span class="form-error">{{ error }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field">
+                        {{ form.message.label }}
+                        {{ form.message(class="pure-input-1", rows=5) }}
+                        {% if form.message.errors %}
+                            {% for error in form.message.errors %}
+                                <span class="form-error">{{ error }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-field">
+                        {{ form.submit(class="pure-button pure-button-primary submit-button") }}
+                    </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
+                <h4>Contact Us</h4>
+                <p>
+			For additional information about our biorepository, whether related to sample availability, data
+access, ongoing studies, or other operational matters, use our contact form.
+			Additional information is available about:
+			<ul>
+				<li>Sample requests and availability</li>
+				<li>Access to data and associated documentation</li>
+				<li>Information on current and upcoming studies</li>
+				<li>Operational or logistical questions</li>
+			</ul>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+{##}
+{#</body>#}
+{#</html>#}
+

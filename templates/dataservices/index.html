@@ -1,0 +1,389 @@
+{% extends "components/base.html" %}
+
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block page_content %}
+
+<div class="data-splash-container">
+    <div class="splash">
+        <h1 class="splash-head" style="--webkit-text-stroke: 4px white; text-stroke:4px white; font-size:3em;color:white;">Data Services</h1>
+    </div>
+</div>
+<div class="content-wrapper">
+    <div class="content">
+        <h2 class="content-head is-center">Supporting research with reliable data management</h2>
+        <div class="pure-g" style="border-bottom:1px solid grey;">
+            <div class="l-box pure-u-1 pure-u-md-1-3">
+                <p>
+                    The WNBR biobank ensures that both sample and associated data remain accurate, accessible, and well-organized throughout the research process. Data from the Laboratory Information Management System (LIMS) is integrated with clinical data in a multi-track system, maintaining consistency and traceability across datasets. Strict data integrity protocols help prevent errors, while managed access ensures that researchers, clinical coordinators, and primary investigators have secure access to the information they need when they need it. This approach supports reproducibility, long-term usability, and compliance with research standards, making data a reliable foundation for neurological studies.
+                </p>
+            </div>
+
+            <div class="l-box pure-u-1 pure-u-md-1-3">
+                    <p><b>Process Transparency & Documentation:</b> We provide clear, structured documentation of biorepository workflows—from specimen collection and storage to distribution and usage—supporting reproducibility and compliance.</p>
+                    <p><b>Data Quality Assurance:</b> Ongoing validation, error-checking, and harmonization processes maximize the reliability of datasets.</p>
+                    <p><b>Regulatory Compliance Support:</b> We help ensure that data management practices align with institutional policies and regulatory frameworks.</p>
+            </div>
+
+            <div class="l-box pure-u-1 pure-u-md-1-3">
+                <p><b>Comprehensive Data Integration:</b> We consolidate and standardize data from multiple sources—including biospecimen tracking, clinical metadata, and laboratory assays—to ensure consistency, accuracy, and accessibility across the biorepository.</p>
+                <p><b>Secure, Role-Based Access:</b> Our systems ensure that sensitive data is accessible only to authorized users, with audit trails and permissions tailored to project needs.</p>
+                <p><b>Collaborative Data Sharing:</b> Facilitate secure, structured data sharing between investigators, institutions, and external collaborators while maintaining data provenance and integrity.</p>
+            </div>
+	    </div>
+                <!-- bullet lists -->
+        <div class="pure-g">
+            <div class="l-box pure-u-1 pure-u-md-1-2">
+                <h3 class="content-subhead">
+                    <i class="fas fa-file-alt"></i>
+		            <a href="{{ url_for('dataservicesreports') }}" style="pointer-events: none;">Reports</a>
+                </h3>
+                <p>
+                    Primary Investigators, lab administrators, and clinical coordinators, can view, select, and download biobank sample reports using the link below. If a specific report is not available, you may also request one from the biobank administrators. Click the link to access reports or submit a request.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-md-1-2">
+                <h3 class="content-subhead">
+                    <i class="fas fa-database"></i>
+		            <a href="{{ url_for('dataservicesrequest') }}" style="pointer-events: none;">Request Data</a>
+                </h3>
+                <p>
+                    Researchers can request access to biobank data through our secure database portal. Requests should include details including desired demographics, specific variable parameters, and any required approvals. Once submitted, requests are reviewed for compliance with ethical and data use guidelines.
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div class="pure-g">
+            <div class="pure-u-1">
+                <style>
+                    /* Container wrapper to properly handle the responsive layout */
+                    .wrapper {
+                        display: flex;
+                        justify-content: center;
+                        width: 100%;
+                    }
+
+                    /* Center the container using Pure CSS utility classes and custom properties */
+                    .centered-container {
+                        /* Add some vertical spacing */
+                        margin-top: 1em;
+                        margin-bottom: 2em;
+                        /* Add some padding inside the container */
+                        padding: 1em;
+                        /* Optional: Add a border or background for visual clarity */
+                        border-radius: 4px;
+                        /* Ensure box-sizing is set properly */
+                        box-sizing: border-box;
+                    }
+
+                    /* Center the text content */
+                    .text-center {
+                        text-align: center;
+                    }
+
+                    /* Style the list for better appearance */
+                    .centered-list {
+                        /* Remove default padding */
+                        padding-left: 0;
+                        /* Use inline-block to center the list */
+                        display: inline-block;
+                        /* Left-align the list items */
+                        text-align: left;
+                        /* Add some margin for spacing */
+                        margin: 1em 0;
+                    }
+
+                    /* Style for the download links */
+                    .centered-list a {
+                        color: #0078e7;
+                        text-decoration: none;
+                        display: block;
+                        padding: 6px 0;
+                        cursor: pointer;
+                    }
+
+                    .centered-list a:hover {
+                        text-decoration: underline;
+                        color: #005bb5;
+                    }
+
+                    /* Add a small download icon next to links */
+                    .centered-list a::after {
+                        content: " 📥";
+                        font-size: 0.9em;
+                        opacity: 0.7;
+                    }
+
+                    /* Form styling */
+                    .form-heading {
+                        margin-top: 1.5em;
+                        margin-bottom: 1em;
+                    }
+
+                    .form-group {
+                        margin-bottom: 1em;
+                    }
+
+                    textarea {
+                        min-height: 100px;
+                    }
+
+                    .submit-btn {
+                        margin-top: 1em;
+                    }
+                    /* Modal styles */
+                    .modal {
+                        display: none;
+                        position: fixed;
+                        z-index: 1000;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.5);
+                    }
+
+                    .modal-content {
+                        background-color: white;
+                        margin: 15% auto;
+                        padding: 20px;
+                        border-radius: 5px;
+                        width: 80%;
+                        max-width: 500px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .close-btn {
+                        float: right;
+                        cursor: pointer;
+                        font-size: 1.5em;
+                    }
+
+                    .error-message {
+                        color: #c0392b;
+                        margin-top: 1em;
+                        display: none;
+                    }
+
+                    .status-message {
+                        margin: 1em 0;
+                        padding: 0.5em;
+                        border-radius: 3px;
+                        display: none;
+                    }
+
+                    .status-info {
+                        background-color: #d9edf7;
+                        color: #31708f;
+                    }
+
+                    .status-error {
+                        background-color: #f2dede;
+                        color: #a94442;
+                    }
+
+                    .status-success {
+                        background-color: #dff0d8;
+                        color: #3c763d;
+                    }
+                </style>
+                <div class="wrapper">
+                    <!--
+                    The Pure CSS grid system classes:
+                    pure-u-1: Takes up 100% width on all screen sizes
+                    pure-u-md-3-4: Takes up 75% width on medium screens and larger
+                    -->
+                    <div class="centered-container pure-u-1 pure-u-md-3-4 text-center">
+                        <h2>Biorepository Reports Available</h2>
+                        <p><i>click to download (authentication required)</i></p>
+                        <!-- Status message div -->
+                        <div id="status-message" class="status-message"></div>
+                        <ul id="reports-list" class="centered-list">
+                            <!-- Modified links to use onclick instead of href for triggering auth -->
+                            <li><a onclick="initiateDownload('WNBR_Sample_Report_TEST.pdf')">Biorepository-MS Intake - last 30 days</a></li>
+                            <li><a onclick="initiateDownload('WNBR_Sample_Report_TEST.xlsx')">Biorepository-MS Intake - last 90 days</a></li>
+                            <li><a onclick="initiateDownload('WNBR_Sample_Report_TEST.csv')">MS Patients - 1-1-2025 to present</a></li>
+                            <li><a onclick="initiateDownload('WNBR_Sample_Report_TEST.pdf')">MS Patients - 1-1-2024 to 12-31-2024</a></li>
+                            <li><a onclick="initiateDownload('WNBR_Sample_Report_TEST.pdf')">MS Patients - Plasma - 2025 YTD</a></li>
+                        </ul>
+                        <hr>
+                        <!-- Form section -->
+                        <h4 class="form-heading">Can't find the report you need? Please submit your requirements in the form below to request a new samples report</h4>
+                        <form class="pure-form pure-form-stacked">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input id="email" type="email" class="pure-input-1" placeholder="your.email@example.com" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="study-name">Study Name</label>
+                                    <input id="study-name" type="text" class="pure-input-1" placeholder="Enter your study name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="data-points">Data Points</label>
+                                    <textarea id="data-points" class="pure-input-1" placeholder="List columns, variables, or other data points needed for your samples report."></textarea>
+                                </div>
+
+                                <button type="submit" class="pure-button pure-button-primary submit-btn">Submit Request</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                    <!-- Authentication Modal -->
+                <div id="authModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeAuthModal()">&times;</span>
+                        <h3>Authentication Required</h3>
+                        <p>Please enter your credentials to download this report</p>
+
+                        <form id="authForm" class="pure-form pure-form-stacked">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="username">Email Address</label>
+                                    <input id="username" name="username" type="text" class="pure-input-1" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input id="password" name="password" type="password" class="pure-input-1" required>
+                                </div>
+
+                                <input type="hidden" id="requested-file" name="requested_file" value="">
+
+                                <button type="submit" class="pure-button pure-button-primary">Download</button>
+
+                                <div id="error-message" class="error-message"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// Global variable to store the requested filename
+let requestedFilename = '';
+
+// Function to show a status message
+function showStatus(message, type) {
+    const statusElement = document.getElementById('status-message');
+    statusElement.textContent = message;
+    statusElement.className = 'status-message status-' + type;
+    statusElement.style.display = 'block';
+
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        statusElement.style.display = 'none';
+    }, 5000);
+}
+
+// Function to open the authentication modal
+function openAuthModal() {
+    document.getElementById('authModal').style.display = 'block';
+    document.getElementById('requested-file').value = requestedFilename;
+    document.getElementById('error-message').style.display = 'none';
+
+    // Reset the form fields
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+
+    // Focus on the username field
+    document.getElementById('username').focus();
+}
+
+// Function to close the authentication modal
+function closeAuthModal() {
+    document.getElementById('authModal').style.display = 'none';
+}
+
+// Function to initiate the download process
+function initiateDownload(filename) {
+    requestedFilename = filename;
+    openAuthModal();
+}
+
+// Function to perform authenticated download
+function downloadWithAuth(username, password, filename) {
+    // Create a form to submit the authentication WNBR_Sample_Collection_Data.csv
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ url_for("download_with_auth", filename="") }}' + filename;
+    form.style.display = 'none';
+
+    // Add username field
+    const usernameField = document.createElement('input');
+    usernameField.type = 'hidden';
+    usernameField.name = 'username';
+    usernameField.value = username;
+    form.appendChild(usernameField);
+
+    // Add password field
+    const passwordField = document.createElement('input');
+    passwordField.type = 'hidden';
+    passwordField.name = 'password';
+    passwordField.value = password;
+    form.appendChild(passwordField);
+
+    // Submit the form
+    document.body.appendChild(form);
+    form.submit();
+
+    // Clean up
+    setTimeout(() => {
+        document.body.removeChild(form);
+    }, 1000);
+}
+
+// Handle the authentication form submission
+document.getElementById('authForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const filename = document.getElementById('requested-file').value;
+
+    // First verify the credentials
+    fetch('{{ url_for("verify_credentials") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Credentials verified, proceed with download
+            closeAuthModal();
+            downloadWithAuth(username, password, filename);
+            showStatus('Download started for ' + filename, 'success');
+        } else {
+            // Authentication failed
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = data.message || 'Invalid username or password. Please contact a site administrator.';
+            errorMessage.style.display = 'block';
+        }
+    })
+    .catch(error => {
+        console.error('Error during authentication:', error);
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.textContent = 'An error occurred. Please try again or contact a site administrator.';
+        errorMessage.style.display = 'block';
+    });
+});
+
+// Close the modal if the user clicks outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('authModal');
+    if (event.target == modal) {
+        closeAuthModal();
+    }
+}
+</script>
+{% endblock %}

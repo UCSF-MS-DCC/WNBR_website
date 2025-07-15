@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: wnbr_web
+    ports:
+      - "5001:5000"
+    volumes:
+      # Mount host directories into the container to persist data
+      - ./reports:/app/reports
+      - ./data:/app/static/data
+      - ./users.json:/app/users.json
+    env_file:
+      # Load environment variables from a .env file
+      - .env

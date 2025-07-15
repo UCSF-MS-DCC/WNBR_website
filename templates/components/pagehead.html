@@ -1,0 +1,71 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a responsive product landing page.">
+    <title>WNBR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='grids-responsive-min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #333;
+        }
+
+        .card-subtitle {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        .card-text {
+            margin: 0;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 48em) {
+            .cards {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>

@@ -1,0 +1,26 @@
+sample_id,patient_id,collection_date,disease_type,sample_type,volume_ml,processing_status,storage_location,sex,age,race
+WNB001,PT10045,2025-01-15,Multiple Sclerosis,Serum,5.0,Processed,Freezer-A1,Female,42,White
+WNB002,PT10046,2025-01-18,Parkinson's Disease,Plasma,3.5,Processed,Freezer-B2,Male,67,African American
+WNB003,PT10047,2025-01-20,Alzheimer's Disease,CSF,2.0,Processed,Freezer-C3,Female,78,White
+WNB004,PT10048,2025-01-25,ALS,Serum,4.5,Processed,Freezer-A2,Male,56,Asian
+WNB005,PT10049,2025-01-28,Multiple Sclerosis,Plasma,3.0,Processed,Freezer-B3,Female,35,Hispanic
+WNB006,PT10050,2025-02-02,Parkinson's Disease,DNA,1.5,Processed,Freezer-D1,Male,71,White
+WNB007,PT10051,2025-02-05,Alzheimer's Disease,Serum,5.0,Processed,Freezer-A3,Female,83,African American
+WNB008,PT10052,2025-02-10,ALS,Plasma,4.0,Processed,Freezer-B4,Male,49,White
+WNB009,PT10053,2025-02-15,Multiple Sclerosis,DNA,2.0,Processed,Freezer-D2,Female,28,Asian
+WNB010,PT10054,2025-02-20,Parkinson's Disease,CSF,1.8,Processed,Freezer-C4,Male,64,White
+WNB011,PT10055,2025-02-25,Alzheimer's Disease,Plasma,3.5,Processed,Freezer-B5,Female,75,Hispanic
+WNB012,PT10056,2025-03-01,ALS,Serum,4.8,Processed,Freezer-A4,Male,52,African American
+WNB013,PT10057,2025-03-05,Multiple Sclerosis,CSF,1.9,Processing,Freezer-C5,Female,39,White
+WNB014,PT10058,2025-03-10,Parkinson's Disease,Serum,5.0,Processing,Freezer-A5,Male,69,Asian
+WNB015,PT10059,2025-03-15,Alzheimer's Disease,DNA,2.2,Processing,Freezer-D3,Female,81,White
+WNB016,PT10060,2025-03-20,ALS,Plasma,3.8,Processing,Freezer-B6,Male,47,Hispanic
+WNB017,PT10061,2025-03-25,Multiple Sclerosis,Serum,4.5,Processed,Freezer-A6,Female,33,African American
+WNB018,PT10062,2025-03-30,Parkinson's Disease,CSF,1.7,Processed,Freezer-C6,Male,72,White
+WNB019,PT10063,2025-04-02,Alzheimer's Disease,Plasma,3.2,Processed,Freezer-B7,Female,77,Asian
+WNB020,PT10064,2025-04-05,ALS,DNA,1.8,Processed,Freezer-D4,Male,58,White
+WNB021,PT10065,2025-04-10,Multiple Sclerosis,Plasma,3.7,Processed,Freezer-B8,Female,41,Hispanic
+WNB022,PT10066,2025-04-15,Parkinson's Disease,Serum,4.9,Processed,Freezer-A7,Male,65,African American
+WNB023,PT10067,2025-04-20,Alzheimer's Disease,CSF,2.1,Processed,Freezer-C7,Female,85,White
+WNB024,PT10068,2025-04-25,ALS,Plasma,3.4,Awaiting Processing,Lab-01,Male,51,Asian
+WNB025,PT10069,2025-04-28,Multiple Sclerosis,DNA,2.5,Awaiting Processing,Lab-02,Female,37,White

@@ -1,0 +1,179 @@
+from flask import Flask, request, jsonify, render_template, send_from_directory, abort, Response, make_response
+from werkzeug.utils import secure_filename
+import os
+app = Flask(__name__)
+
+app.config['REPORTS_FOLDER'] = os.path.join(app.root_path, 'reports')
+app.config['USERS_FILE'] = os.path.join(app.root_path, 'users.json')
+
+VALID_CREDENTIALS = {
+    'admin': 'password123',
+    'user': 'userpass',
+    # Add more valid credentials as needed
+}
+
+@app.route('/verify-credentials', methods=['POST'])
+def verify_credentials():
+    """Verify user credentials."""
+    data = request.get_json()
+
+    if not data:
+        return jsonify({'success': False, 'message': 'No WNBR_Sample_Collection_Data.csv provided'}), 400
+
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({'success': False, 'message': 'Username and password required'}), 400
+
+    # Check if credentials are valid
+    if username in VALID_CREDENTIALS and VALID_CREDENTIALS[username] == password:
+        return jsonify({'success': True, 'message': 'Authentication successful'})
+    else:
+        return jsonify({'success': False, 'message': 'Invalid username or password'}), 401
+
+
+def check_auth(username, password):
+    """
+    Check if the provided username and password match the credentials in the flat file.
+
+    Args:
+        username: The username to check
+        password: The password to check
+
+    Returns:
+        Boolean indicating if authentication was successful
+    """
+    try:
+        with open(app.config['USERS_FILE'], 'r') as f:
+            users = json.load(f)
+
+        if username in users:
+            # Simple hash comparison - in production, use a proper password hashing library
+            stored_hash = users[username]['password_hash']
+            # Create a simple hash for comparison
+            password_hash = hashlib.sha256(password.encode()).hexdigest()
+
+            return password_hash == stored_hash
+
+        return False
+    except (FileNotFoundError, json.JSONDecodeError):
+        app.logger.error(f"Error reading users file: {app.config['USERS_FILE']}")
+        return False
+@app.route('/')
+def index():
+    return render_template("index.html")
+@app.route('/biobank/index')
+def biobankindex():
+    return render_template("/biobank/index.html", page_title="Biobank Index")
+@app.route('/biobank/team')
+def biobankteam():
+    return render_template("/biobank/team.html", page_title="Biobank Team")
+@app.route('/biobank/collection')
+def biobankcollection():
+    return render_template("/biobank/collection.html", page_title="Sample Collection")
+@app.route('/biobank/samplerequest')
+def biobanksamplerequest():
+    return render_template("/biobank/samplerequest.html", page_title="Request Samples")
+@app.route('/biobank/lims')
+def biobanklims():
+    return render_template("/biobank/lims.html", page_title="LIMS information")
+@app.route('/biobank/dashboard')
+def biobankdashboard():
+    return render_template("/biobank/dashboard.html", page_title="Sample Dashboard")
+@app.route('/biobank/team2')
+def biobankteam2():
+    return render_template("/biobank/team2.html")
+@app.route('/dataservices/index')
+def dataservicesindex():
+    return render_template("/dataservices/index.html", page_title="Data Services")
+@app.route('/dataservices/datarequest')
+def dataservicesrequest():
+    return render_template("/dataservices/datarequest.html", page_title="Request Data")
+@app.route('/dataservices/lims')
+def dataserviceslims():
+    return render_template("/dataservices/lims.html", page_title="LIMS Information")
+@app.route('/dataservices/useradmin')
+def dataservicesuseradmin():
+    return render_template("/dataservices/useradmin.html", page_title="User Admin")
+@app.route('/dataservices/dashboard')
+def dataservicesdashboard():
+    return render_template("/dataservices/dashboard.html", page_title="Data Dash")
+@app.route('/dataservices/reports')
+def dataservicesreports():
+    return render_template("/dataservices/reports.html", page_title="Reports")
+
+@app.route('/download/<filename>', methods=['GET', 'POST'])
+def download_with_auth(filename):
+    """Handle authenticated file downloads."""
+    # Secure the filename to prevent directory traversal attacks
+    filename = secure_filename(filename)
+
+    # Check authentication
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Verify credentials
+        if username in VALID_CREDENTIALS and VALID_CREDENTIALS[username] == password:
+            # Authentication successful, process download
+            try:
+                file_path = os.path.join(app.config['REPORTS_FOLDER'], filename)
+
+                # Check if file exists
+                if not os.path.isfile(file_path):
+                    # For demonstration purposes, if the file doesn't exist,
+                    # we'll create a simple text file
+                    if not os.path.exists(app.config['REPORTS_FOLDER']):
+                        os.makedirs(app.config['REPORTS_FOLDER'])
+
+                    with open(file_path, 'w') as f:
+                        f.write(f"This is a sample report file: {filename}\n")
+                        f.write("Created for demonstration purposes.")
+
+                return send_from_directory(
+                    directory=app.config['REPORTS_FOLDER'],
+                    path=filename,
+                    as_attachment=True
+                )
+            except Exception as e:
+                app.logger.error(f"Download error: {str(e)}")
+                return jsonify({
+                    'success': False,
+                    'message': 'Error processing download. Please contact an administrator.'
+                }), 500
+        else:
+            # Authentication failed
+            return jsonify({
+                'success': False,
+                'message': 'Invalid credentials. Access denied.'
+            }), 401
+
+    # GET requests should be handled too - redirect to authentication
+    return jsonify({
+        'success': False,
+        'message': 'Authentication required to download files.'
+    }), 401
+@app.route('/faq')
+def faq():
+    return render_template("/faq.html", page_title="WNBR FAQ")
+
+@app.route('/ms/index')
+def msindex():
+    return render_template("/ms/index.html")
+
+@app.route('/pd/index')
+def pdindex():
+    return render_template("/pd/index.html")
+
+@app.route('/als/index')
+def alsindex():
+    return render_template("/als/index.html")
+
+@app.route('/alzheimers/index')
+def alzheimersindex():
+    return render_template("/alzheimers/index.html")
+app.add_url_rule('/verify-credentials', view_func=verify_credentials, methods=['POST'])
+app.add_url_rule('/download/<filename>', view_func=download_with_auth, methods=['GET', 'POST'])
+
+app.run()

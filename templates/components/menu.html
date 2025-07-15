@@ -1,0 +1,39 @@
+        <div class="pure-g pageTopContainer custom-menu">
+                <div class="pure-u-1-8"></div>
+                <div class="pure-u-8-24"><a class="externalLink" href="https://www.ucsf.edu">University of California, San
+Francisco</a></div>
+                <div class="pure-u-4-24"></div>
+                <div class="pure-u-1-12"><a class="externalLink" href="https://www.ucsf.edu/about/ucsf-overview">About
+UCSF</a></div>
+                <div class="pure-u-1-12"><a class="externalLink" href="https://www.ucsf.edu/search">Search
+UCSF</a></div>
+                <div class="pure-u-1-8"><a class="externalLink" href="https://www.ucsfhealth.org/">UCSF Medical Center</a></div>
+
+        </div>
+	<div class="custom-menu-wrapper">
+          <div class="pure-menu custom-menu custom-menu-top">
+              <a href="/" class="pure-menu-heading custom-menu-brand" style="font-weight:bold;font-size:16pt;text-transform:none;">
+		<img style="width:50 px;" class="pure-img" src="{{url_for('static', 
+filename='images/UCSF_Entity_Weill_IND_Horiz_white_RGB.png') }}" >
+	      </a>
+              <a href="#" class="custom-menu-toggle" id="toggle"></a>
+          </div>
+          <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked" id="tuckedMenu">
+              <div class="custom-menu-screen"></div>
+              <ul class="pure-menu-list">
+                  <li class="pure-menu-item"><a href="/team" class="pure-menu-link">Team</a></li>
+                  <li class="pure-menu-item"><a href="/research" class="pure-menu-link">Research</a></li>
+                  <li class="pure-menu-item"><a href="/publications" class="pure-menu-link">Publications</a></li>
+                  <li class="pure-menu-item"><a href="/join" class="pure-menu-link">Join Us</a></li>
+                  <li class="pure-menu-item"><a href="https://msgenetics.ucsf.edu" target="_blank" class="pure-menu-link">Biorepository</a></li>
+              </ul>
+          </div>
+      </div>
+      <script>
+      (function (window, document) {
+      document.getElementById('toggle').addEventListener('click', function (e) {
+          document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+          document.getElementById('toggle').classList.toggle('x');
+      });
+      })(this, this.document);
+      </script>

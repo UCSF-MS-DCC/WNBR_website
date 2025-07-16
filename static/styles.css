@@ -175,7 +175,7 @@ a.pure-button-primary {
 .biobank-splash-container {
     background-image:
 /*    url("../static/images/biorepository_splash_image.jpg");*/
-    url("../static/images/blood_tubes.jpg");
+    url("../static/images/centrifuge.jpg");
     background-size:100% auto;  
     background-repeat:no-repeat;
     z-index: 1;

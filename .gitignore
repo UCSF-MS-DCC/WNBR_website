@@ -39,3 +39,7 @@ wheels/
 # OS-specific files
 .DS_Store/Users/arenschen/git_repos/weill_biobank/data/WNBR
 _Sample_Collection_Data.csv
+
+# Data files
+data/
+static/data/

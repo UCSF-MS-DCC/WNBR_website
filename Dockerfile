@@ -25,7 +25,7 @@ COPY . .
 
 # Create and set permissions for directories the app writes to
 # These will be mounted as volumes in docker-compose
-RUN mkdir -p /app/reports /app/static/data && chown -R app:app /app/reports /app/static/data
+RUN mkdir -p /app/reports /app/static/data /app/data && chown -R app:app /app/reports /app/static/data /app/data
 RUN chown -R app:app /app
 
 # Switch to the non-root user

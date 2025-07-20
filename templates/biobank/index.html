@@ -36,17 +36,25 @@ individuals with neurological conditions.
         </div>
 	</div>
     <hr>
-
-    <hr>
     <!-- Data dashboard -->
     <div class="pure-g">
         <div class="pure-u-1 filter-section">
             <form class="pure-form pure-form-stacked">
                 <div class="pure-g">
-                    <div class="pure-u-1 pure-u-md-1-4"><label for="clinic-filter">Referring Clinic</label><select id="clinic-filter" class="filter-dropdown"></select></div>
-                    <div class="pure-u-1 pure-u-md-1-4"><label for="sex-filter">Sex</label><select id="sex-filter" class="filter-dropdown"></select></div>
-                    <div class="pure-u-1 pure-u-md-1-4"><label for="race-filter">Race</label><select id="race-filter" class="filter-dropdown"></select></div>
-                    <div class="pure-u-1 pure-u-md-1-4"><label for="ethnicity-filter">Ethnicity</label><select id="ethnicity-filter" class="filter-dropdown"></select></div>
+                    <div class="pure-u-1 pure-u-md-1-3 filter-container"><label for="clinic-filter">Referring Clinic</label><select id="clinic-filter" class="filter-dropdown"></select></div>
+                    <div class="pure-u-1 pure-u-md-1-3 filter-container"><label for="race-filter">Race</label><select id="race-filter" class="filter-dropdown"></select></div>
+                    <div class="pure-u-1 pure-u-md-1-3 filter-container"><label for="ethnicity-filter">Ethnicity</label><select id="ethnicity-filter" class="filter-dropdown"></select></div>
+
+                    <div class="pure-u-1 center-container-content">
+                        <div class="slider-wrapper">
+                            <label>Date Range</label>
+                            <div id="date-slider-container"></div>
+                            <div class="slider-labels">
+                                <span id="slider-start-date"></span>
+                                <span id="slider-end-date"></span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="pure-u-1 kpi-section">
                         <div class="pure-g">
@@ -66,1561 +74,177 @@ individuals with neurological conditions.
                 </div>
             </form>
         </div>
-
-
     </div>
 
     <!-- Sample information request form -->
-    <div class="wrapper">
-            <div class="form-container pure-u-1 pure-u-md-3-4">
-                <h1 class="form-title">WNBR Sample Availability Request Form</h1>
-
-                <form class="pure-form pure-form-stacked">
-                    <fieldset>
-                        <!-- Basic Request Information -->
-
-                        <div class="pure-g">
-                            <div class="pure-u-1 pure-u-md-1-2">
-                                <div class="form-group" style="padding-right: 1em;">
-                                    <label for="requester-name" class="required">Requester Name</label>
-                                    <input id="requester-name" type="text" class="pure-input-1" required>
-                                </div>
-                            </div>
-
-                            <div class="pure-u-1 pure-u-md-1-2">
-                                <div class="form-group">
-                                    <label for="requester-email" class="required">Email Address</label>
-                                    <input id="requester-email" type="email" class="pure-input-1" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Cohort Selection -->
-                        <h3 class="section-heading">Subject/Cohort Information</h3>
-
-                        <div class="form-group">
-                            <label for="cohort-type" class="required">Subject Cohort Type</label>
-                            <select id="cohort-type" class="pure-input-1" >
-                                <option value="" disabled selected>Select cohort type</option>
-                                <option value="single-subject">Single Subject</option>
-                                <option value="multi-subject">Multi-Subject Cohort</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="study-source" class="required">Study Source</label>
-                            <select id="study-source" class="pure-input-1" required>
-                                <option value="" disabled selected>Select study to draw samples from</option>
-                                <option value="study-a">Genetics Susceptibility</option>
-                                <option value="study-b">EPIC/ORIGINS</option>
-                                <option value="study-c">Brainwalk</option>
-                                <option value="study-d">DeepNeuro</option>
-                            </select>
-                        </div>
-
-                        <!-- Biomaterials -->
-                        <h3 class="section-heading">Sample Information</h3>
-
-                        <div class="form-group">
-                            <label for="biomaterial-type" class="required">Biomaterial Type</label>
-                            <select id="biomaterial-type" class="pure-input-1" required>
-                                <option value="" disabled selected>Select biomaterial</option>
-                                <option value="serum">Serum</option>
-                                <option value="plasma">Plasma</option>
-                                <option value="dna">DNA</option>
-                                <option value="pbmc">PBMCs</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Sample Volume/Quantity</label>
-                            <div class="pure-g">
-                                <div class="pure-u-1 pure-u-md-1-2">
-                                    <div style="padding-right: 1em;">
-                                        <input type="number" id="sample-quantity" class="pure-input-1" placeholder="Quantity">
-                                    </div>
-                                </div>
-                                <div class="pure-u-1 pure-u-md-1-2">
-                                    <select id="sample-unit" class="pure-input-1">
-                                        <option value="ml">mL</option>
-                                        <option value="ug">μg</option>
-                                        <option value="mg">mg</option>
-                                        <option value="vials">vials</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Demographics -->
-                        <h3 class="section-heading">Demographics</h3>
-
-                        <div class="form-group">
-                            <div class="pure-g">
-                                <div class="pure-u-1 pure-u-md-1-2">
-                                    <label>Sex</label>
-                                    <select id="sex" class="pure-input-1">
-                                        <option value="" disabled selected>Select</option>
-                                        <option value="ml">Female only</option>
-                                        <option value="ug">Male only</option>
-                                        <option value="mg">Both/either</option>
-                                    </select>
-                                </div>
-                                <div class="pure-u-1 pure-u-md-1-2">
-                                    <label>Race</label>
-                                    <select id="race" class="pure-input-1">
-                                        <option value="" disabled selected>Select</option>
-                                        <option value="aa">African American</option>
-                                        <option value="wh">White</option>
-                                        <option value="as">Asian</option>
-                                        <option value="na">Native American</option>
-                                        <option value="pi">Hawaiian/Pacific Islander</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="pure-g">
-                            <div class="pure-u-1 pure-u-md-1-3">
-                                <div class="form-group" style="padding-right: 1em;">
-                                    <label for="age-min">Age Range (Min)</label>
-                                    <input id="age-min" type="number" min="0" max="120" class="pure-input-1" placeholder="Minimum">
-                                </div>
-                            </div>
-
-                            <div class="pure-u-1 pure-u-md-1-3">
-                                <div class="form-group" style="padding-right: 1em;">
-                                    <label for="age-max">Age Range (Max)</label>
-                                    <input id="age-max" type="number" min="0" max="120" class="pure-input-1" placeholder="Maximum">
-                                </div>
-                            </div>
-
-                            <div class="pure-u-1 pure-u-md-1-3">
-                                <div class="form-group">
-                                    <label for="disease-status">Disease Status</label>
-                                    <select id="disease-status" class="pure-input-1">
-                                        <option value="" disabled selected>Select status</option>
-                                        <option value="all">All</option>
-                                        <option value="affected">Affected (Cases)</option>
-                                        <option value="healthy">Healthy Controls</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Additional Information -->
-                        <h3 class="section-heading">Additional Information</h3>
-
-                        <div class="form-group">
-                            <label for="additional-variables">Additional Variables</label>
-                            <textarea id="additional-variables" class="pure-input-1" style="min-height: 100px;" placeholder="List any additional variables or specific data points needed (e.g., BMI, blood pressure, glucose levels, etc.)"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="data-purpose">Purpose of Data Request</label>
-                            <textarea id="data-purpose" class="pure-input-1" style="min-height: 100px;" placeholder="Briefly describe how this data will be used in your research"></textarea>
-                        </div>
-
-                        <div class="pure-g">
-                            <div class="pure-u-1" style="text-align: center;">
-                                <button type="submit" class="pure-button submit-button">Submit Request</button>
-                            </div>
-                        </div>
-
-                        <p class="helper-text" style="text-align: center; margin-top: 1em;">
-                            Fields marked with * are required. Once submitted, your request will be reviewed within 5 business days.
-                        </p>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
+{#    <div class="wrapper">#}
+{#            <div class="form-container pure-u-1 pure-u-md-3-4">#}
+{#                <h1 class="form-title">WNBR Sample Availability Request Form</h1>#}
+{##}
+{#                <form class="pure-form pure-form-stacked">#}
+{#                    <fieldset>#}
+{#                        <!-- Basic Request Information -->#}
+{##}
+{#                        <div class="pure-g">#}
+{#                            <div class="pure-u-1 pure-u-md-1-2">#}
+{#                                <div class="form-group" style="padding-right: 1em;">#}
+{#                                    <label for="requester-name" class="required">Requester Name</label>#}
+{#                                    <input id="requester-name" type="text" class="pure-input-1" required>#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="pure-u-1 pure-u-md-1-2">#}
+{#                                <div class="form-group">#}
+{#                                    <label for="requester-email" class="required">Email Address</label>#}
+{#                                    <input id="requester-email" type="email" class="pure-input-1" required>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <!-- Cohort Selection -->#}
+{#                        <h3 class="section-heading">Subject/Cohort Information</h3>#}
+{##}
+{#                        <div class="form-group">#}
+{#                            <label for="cohort-type" class="required">Subject Cohort Type</label>#}
+{#                            <select id="cohort-type" class="pure-input-1" >#}
+{#                                <option value="" disabled selected>Select cohort type</option>#}
+{#                                <option value="single-subject">Single Subject</option>#}
+{#                                <option value="multi-subject">Multi-Subject Cohort</option>#}
+{#                            </select>#}
+{#                        </div>#}
+{##}
+{#                        <div class="form-group">#}
+{#                            <label for="study-source" class="required">Study Source</label>#}
+{#                            <select id="study-source" class="pure-input-1" required>#}
+{#                                <option value="" disabled selected>Select study to draw samples from</option>#}
+{#                                <option value="study-a">Genetics Susceptibility</option>#}
+{#                                <option value="study-b">EPIC/ORIGINS</option>#}
+{#                                <option value="study-c">Brainwalk</option>#}
+{#                                <option value="study-d">DeepNeuro</option>#}
+{#                            </select>#}
+{#                        </div>#}
+{##}
+{#                        <!-- Biomaterials -->#}
+{#                        <h3 class="section-heading">Sample Information</h3>#}
+{##}
+{#                        <div class="form-group">#}
+{#                            <label for="biomaterial-type" class="required">Biomaterial Type</label>#}
+{#                            <select id="biomaterial-type" class="pure-input-1" required>#}
+{#                                <option value="" disabled selected>Select biomaterial</option>#}
+{#                                <option value="serum">Serum</option>#}
+{#                                <option value="plasma">Plasma</option>#}
+{#                                <option value="dna">DNA</option>#}
+{#                                <option value="pbmc">PBMCs</option>#}
+{#                            </select>#}
+{#                        </div>#}
+{##}
+{#                        <div class="form-group">#}
+{#                            <label>Sample Volume/Quantity</label>#}
+{#                            <div class="pure-g">#}
+{#                                <div class="pure-u-1 pure-u-md-1-2">#}
+{#                                    <div style="padding-right: 1em;">#}
+{#                                        <input type="number" id="sample-quantity" class="pure-input-1" placeholder="Quantity">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="pure-u-1 pure-u-md-1-2">#}
+{#                                    <select id="sample-unit" class="pure-input-1">#}
+{#                                        <option value="ml">mL</option>#}
+{#                                        <option value="ug">μg</option>#}
+{#                                        <option value="mg">mg</option>#}
+{#                                        <option value="vials">vials</option>#}
+{#                                    </select>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <!-- Demographics -->#}
+{#                        <h3 class="section-heading">Demographics</h3>#}
+{##}
+{#                        <div class="form-group">#}
+{#                            <div class="pure-g">#}
+{#                                <div class="pure-u-1 pure-u-md-1-2">#}
+{#                                    <label>Sex</label>#}
+{#                                    <select id="sex" class="pure-input-1">#}
+{#                                        <option value="" disabled selected>Select</option>#}
+{#                                        <option value="ml">Female only</option>#}
+{#                                        <option value="ug">Male only</option>#}
+{#                                        <option value="mg">Both/either</option>#}
+{#                                    </select>#}
+{#                                </div>#}
+{#                                <div class="pure-u-1 pure-u-md-1-2">#}
+{#                                    <label>Race</label>#}
+{#                                    <select id="race" class="pure-input-1">#}
+{#                                        <option value="" disabled selected>Select</option>#}
+{#                                        <option value="aa">African American</option>#}
+{#                                        <option value="wh">White</option>#}
+{#                                        <option value="as">Asian</option>#}
+{#                                        <option value="na">Native American</option>#}
+{#                                        <option value="pi">Hawaiian/Pacific Islander</option>#}
+{#                                    </select>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <div class="pure-g">#}
+{#                            <div class="pure-u-1 pure-u-md-1-3">#}
+{#                                <div class="form-group" style="padding-right: 1em;">#}
+{#                                    <label for="age-min">Age Range (Min)</label>#}
+{#                                    <input id="age-min" type="number" min="0" max="120" class="pure-input-1" placeholder="Minimum">#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="pure-u-1 pure-u-md-1-3">#}
+{#                                <div class="form-group" style="padding-right: 1em;">#}
+{#                                    <label for="age-max">Age Range (Max)</label>#}
+{#                                    <input id="age-max" type="number" min="0" max="120" class="pure-input-1" placeholder="Maximum">#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="pure-u-1 pure-u-md-1-3">#}
+{#                                <div class="form-group">#}
+{#                                    <label for="disease-status">Disease Status</label>#}
+{#                                    <select id="disease-status" class="pure-input-1">#}
+{#                                        <option value="" disabled selected>Select status</option>#}
+{#                                        <option value="all">All</option>#}
+{#                                        <option value="affected">Affected (Cases)</option>#}
+{#                                        <option value="healthy">Healthy Controls</option>#}
+{#                                    </select>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <!-- Additional Information -->#}
+{#                        <h3 class="section-heading">Additional Information</h3>#}
+{##}
+{#                        <div class="form-group">#}
+{#                            <label for="additional-variables">Additional Variables</label>#}
+{#                            <textarea id="additional-variables" class="pure-input-1" style="min-height: 100px;" placeholder="List any additional variables or specific data points needed (e.g., BMI, blood pressure, glucose levels, etc.)"></textarea>#}
+{#                        </div>#}
+{##}
+{#                        <div class="form-group">#}
+{#                            <label for="data-purpose">Purpose of Data Request</label>#}
+{#                            <textarea id="data-purpose" class="pure-input-1" style="min-height: 100px;" placeholder="Briefly describe how this data will be used in your research"></textarea>#}
+{#                        </div>#}
+{##}
+{#                        <div class="pure-g">#}
+{#                            <div class="pure-u-1" style="text-align: center;">#}
+{#                                <button type="submit" class="pure-button submit-button">Submit Request</button>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <p class="helper-text" style="text-align: center; margin-top: 1em;">#}
+{#                            Fields marked with * are required. Once submitted, your request will be reviewed within 5 business days.#}
+{#                        </p>#}
+{#                    </fieldset>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-<script>
-    // Global variables
-let sampleData = [];
-let filteredData = [];
-let charts = {};
-let chartInitialized = false;
 
-// Chart colors
-const chartColors = {
-    ms: '#4a86e8',
-    pd: '#6aa84f',
-    ad: '#e69138',
-    als: '#cc0000',
-    serum: '#3366cc',
-    plasma: '#dc3912',
-    csf: '#ff9900',
-    dna: '#109618',
-    processed: '#3366cc',
-    processing: '#ff9900',
-    awaiting: '#dc3912',
-    female: '#e377c2',
-    male: '#17becf'
-};
-
-// Wait until page is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait an additional moment for all canvas elements to be fully rendered
-    setTimeout(initializeApplication, 500);
-});
-
-// Initialize the application
-function initializeApplication() {
-    console.log("Initializing application...");
-
-    // Set up event listeners
-    const applyFiltersBtn = document.getElementById('apply-filters');
-    if (applyFiltersBtn) {
-        applyFiltersBtn.addEventListener('click', applyFilters);
-    }
-
-    const resetFiltersBtn = document.getElementById('reset-filters');
-    if (resetFiltersBtn) {
-        resetFiltersBtn.addEventListener('click', resetFilters);
-    }
-
-    // Set up tab functionality
-    const tabs = document.getElementsByClassName('tab');
-    for (let i = 0; i < tabs.length; i++) {
-        tabs[i].addEventListener('click', function(event) {
-            openTab(event, this.textContent.toLowerCase().trim());
-        });
-    }
-
-    // Fetch sample data
-    fetchSampleData();
-}
-
-// Function to fetch sample data from the server
-function fetchSampleData() {
-    console.log("Fetching sample data...");
-
-    // Show all loading spinners
-    document.querySelectorAll('.loading').forEach(spinner => {
-        spinner.style.display = 'flex';
-    });
-
-    // Show loading message
-    displayMessage("Loading sample data...", "info");
-
-    // Fetch data from the API
-    fetch('/api/sample-data')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.text();
-        })
-        .then(data => {
-            try {
-                console.log("Sample data received, parsing...");
-                // Parse CSV data
-                sampleData = parseCSV(data);
-                filteredData = [...sampleData];
-
-                // Hide message
-                hideMessage();
-
-                // Initialize dashboard with the data
-                initializeDashboard();
-            } catch (error) {
-                console.error('Error parsing CSV data:', error);
-                displayErrorMessage("Error processing sample data. Please check console for details.");
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching sample data:', error);
-            displayErrorMessage("Error loading sample data. Please check console for details.");
-
-            // Hide all loading spinners
-            document.querySelectorAll('.loading').forEach(spinner => {
-                spinner.style.display = 'none';
-            });
-        });
-}
-
-// Function to parse CSV data
-function parseCSV(csvText) {
-    console.log("Parsing CSV data...");
-
-    if (!csvText || csvText.trim() === '') {
-        console.error("CSV text is empty");
-        return [];
-    }
-
-    const lines = csvText.split('\n');
-    if (lines.length <= 1) {
-        console.error("CSV has insufficient data", lines);
-        return [];
-    }
-
-    const headers = lines[0].split(',');
-    const result = [];
-
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (!line) continue;
-
-        const currentLine = line.split(',');
-        if (currentLine.length !== headers.length) {
-            console.warn(`Line ${i} has ${currentLine.length} fields, expected ${headers.length}`);
-            continue;
-        }
-
-        const obj = {};
-
-        for (let j = 0; j < headers.length; j++) {
-            const header = headers[j].trim();
-            const value = currentLine[j].trim();
-
-            // Special handling for numeric fields
-            if (header === 'volume_ml' || header === 'age') {
-                obj[header] = parseFloat(value) || 0;
-            } else {
-                obj[header] = value;
-            }
-        }
-
-        // Parse collection date to JavaScript Date object
-        try {
-            obj.collectionDate = new Date(obj.collection_date);
-        } catch (e) {
-            console.warn(`Invalid date format for line ${i}:`, obj.collection_date);
-            obj.collectionDate = new Date(); // Use current date as fallback
-        }
-
-        result.push(obj);
-    }
-
-    console.log(`Parsed ${result.length} sample records`);
-    return result;
-}
-
-// Function to display messages to the user
-function displayMessage(message, type = "info") {
-    console.log(`Displaying message: ${message} (${type})`);
-
-    // Get or create message element
-    let messageEl = document.getElementById('dashboard-message');
-    if (!messageEl) {
-        messageEl = document.createElement('div');
-        messageEl.id = 'dashboard-message';
-        messageEl.style.padding = '10px 15px';
-        messageEl.style.margin = '0 0 20px 0';
-        messageEl.style.borderRadius = '4px';
-        messageEl.style.textAlign = 'center';
-        messageEl.style.fontWeight = '500';
-
-        // Insert at the top of the dashboard container
-        const dashboardContainer = document.querySelector('.dashboard-container');
-        if (dashboardContainer && dashboardContainer.firstChild) {
-            dashboardContainer.insertBefore(messageEl, dashboardContainer.querySelector('h1').nextSibling);
-        }
-    }
-
-    // Set style based on message type
-    if (type === "error") {
-        messageEl.style.backgroundColor = '#f8d7da';
-        messageEl.style.color = '#721c24';
-        messageEl.style.borderLeft = '4px solid #f5c6cb';
-    } else if (type === "success") {
-        messageEl.style.backgroundColor = '#d4edda';
-        messageEl.style.color = '#155724';
-        messageEl.style.borderLeft = '4px solid #c3e6cb';
-    } else {
-        messageEl.style.backgroundColor = '#d1ecf1';
-        messageEl.style.color = '#0c5460';
-        messageEl.style.borderLeft = '4px solid #bee5eb';
-    }
-
-    // Set message text
-    messageEl.textContent = message;
-    messageEl.style.display = 'block';
-}
-
-// Function to display error messages to the user
-function displayErrorMessage(message) {
-    // Get or create error element
-    const errorEl = document.getElementById('dashboard-error');
-    if (errorEl) {
-        errorEl.textContent = message;
-        errorEl.style.display = 'block';
-    } else {
-        console.error("Error element not found:", message);
-    }
-}
-
-// Function to hide the message
-function hideMessage() {
-    const messageEl = document.getElementById('dashboard-message');
-    if (messageEl) {
-        messageEl.style.display = 'none';
-    }
-
-    const errorEl = document.getElementById('dashboard-error');
-    if (errorEl) {
-        errorEl.style.display = 'none';
-    }
-}
-
-// Function to apply filters
-function applyFilters() {
-    const diseaseFilter = document.getElementById('disease-filter')?.value || 'all';
-    const sampleFilter = document.getElementById('sample-filter')?.value || 'all';
-    const dateFilter = document.getElementById('date-filter')?.value || 'all';
-
-    console.log(`Applying filters: disease=${diseaseFilter}, sample=${sampleFilter}, date=${dateFilter}`);
-
-    // Reset filtered data
-    filteredData = [...sampleData];
-
-    // Apply disease filter
-    if (diseaseFilter !== 'all') {
-        filteredData = filteredData.filter(sample => sample.disease_type === diseaseFilter);
-    }
-
-    // Apply sample type filter
-    if (sampleFilter !== 'all') {
-        filteredData = filteredData.filter(sample => sample.sample_type === sampleFilter);
-    }
-
-    // Apply date filter
-    if (dateFilter !== 'all') {
-        const daysAgo = parseInt(dateFilter);
-        const cutoffDate = new Date();
-        cutoffDate.setDate(cutoffDate.getDate() - daysAgo);
-
-        filteredData = filteredData.filter(sample => sample.collectionDate >= cutoffDate);
-    }
-
-    // Update dashboard with filtered data
-    updateDashboard();
-
-    // Show success message
-    displayMessage(`Filters applied: showing ${filteredData.length} samples`, "success");
-
-    // Hide message after 3 seconds
-    setTimeout(hideMessage, 3000);
-}
-
-// Function to reset filters
-function resetFilters() {
-    console.log("Resetting filters");
-
-    // Reset all filter dropdown values
-    const diseaseFilter = document.getElementById('disease-filter');
-    if (diseaseFilter) diseaseFilter.value = 'all';
-
-    const sampleFilter = document.getElementById('sample-filter');
-    if (sampleFilter) sampleFilter.value = 'all';
-
-    const dateFilter = document.getElementById('date-filter');
-    if (dateFilter) dateFilter.value = 'all';
-
-    // Reset filtered data to original data
-    filteredData = [...sampleData];
-
-    // Update dashboard
-    updateDashboard();
-
-    // Show success message
-    displayMessage("Filters reset successfully", "success");
-
-    // Hide message after 3 seconds
-    setTimeout(hideMessage, 3000);
-}
-
-// Function to initialize dashboard with data
-function initializeDashboard() {
-    console.log("Initializing dashboard...");
-
-    if (!sampleData || sampleData.length === 0) {
-        console.error("No sample data available");
-        displayErrorMessage("No sample data available. Please try again later.");
-        return;
-    }
-
-    try {
-        // Create all charts if not already initialized
-        if (!chartInitialized) {
-            console.log("Creating charts...");
-            createCharts();
-            chartInitialized = true;
-        }
-
-        // Update dashboard statistics and charts
-        updateDashboard();
-
-        // Hide all loading spinners
-        document.querySelectorAll('.loading').forEach(spinner => {
-            spinner.style.display = 'none';
-        });
-
-        console.log("Dashboard initialization complete");
-    } catch (error) {
-        console.error("Error initializing dashboard:", error);
-        displayErrorMessage("Error initializing dashboard. Please check console for details.");
-
-        // Hide all loading spinners
-        document.querySelectorAll('.loading').forEach(spinner => {
-            spinner.style.display = 'none';
-        });
-    }
-}
-
-// Function to create chart only if canvas element exists
-function createSafeChart(canvasId, config) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) {
-        console.warn(`Canvas element '${canvasId}' not found`);
-        return null;
-    }
-
-    try {
-        const ctx = canvas.getContext('2d');
-        return new Chart(ctx, config);
-    } catch (error) {
-        console.error(`Error creating chart for '${canvasId}':`, error);
-        return null;
-    }
-}
-
-// Function to create all chart objects
-function createCharts() {
-    charts = {}; // Reset charts object
-
-    // Common options for pie and donut charts - reduced size by 20%
-    const pieChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom'
-            }
-        },
-        // Set custom canvas size to reduce by 20%
-        layout: {
-            padding: {
-                top: 20,
-                bottom: 20
-            }
-        },
-        // Scale the chart itself down by 20%
-        aspectRatio: 1.6  // Default is 2, so 1.6 is 20% smaller
-    };
-
-    // Overview tab charts
-    charts.overview = createSafeChart('overview-chart', {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-            datasets: [{
-                label: 'Sample Collections',
-                data: [],
-                backgroundColor: '#3498db'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Monthly Collections'
-                }
-            }
-        }
-    });
-
-    charts.sampleType = createSafeChart('sample-type-chart', {
-        type: 'doughnut',
-        data: {
-            labels: ['Serum', 'Plasma', 'CSF', 'DNA'],
-            datasets: [{
-                data: [],
-                backgroundColor: [
-                    chartColors.serum,
-                    chartColors.plasma,
-                    chartColors.csf,
-                    chartColors.dna
-                ]
-            }]
-        },
-        options: pieChartOptions
-    });
-
-    charts.disease = createSafeChart('disease-chart', {
-        type: 'pie',
-        data: {
-            labels: ['Multiple Sclerosis', 'Parkinson\'s Disease', 'Alzheimer\'s Disease', 'ALS'],
-            datasets: [{
-                data: [],
-                backgroundColor: [
-                    chartColors.ms,
-                    chartColors.pd,
-                    chartColors.ad,
-                    chartColors.als
-                ]
-            }]
-        },
-        options: {
-            ...pieChartOptions,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-
-    charts.trend = createSafeChart('trend-chart', {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Samples',
-                data: [],
-                borderColor: '#3498db',
-                tension: 0.2,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Disease tab charts
-    charts.ms = createSafeChart('ms-chart', {
-        type: 'bar',
-        data: {
-            labels: ['Serum', 'Plasma', 'CSF', 'DNA'],
-            datasets: [{
-                label: 'Multiple Sclerosis Samples by Type',
-                data: [],
-                backgroundColor: chartColors.ms
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    charts.pd = createSafeChart('pd-chart', {
-        type: 'bar',
-        data: {
-            labels: ['Serum', 'Plasma', 'CSF', 'DNA'],
-            datasets: [{
-                label: 'Parkinson\'s Disease Samples by Type',
-                data: [],
-                backgroundColor: chartColors.pd
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    charts.ad = createSafeChart('ad-chart', {
-        type: 'bar',
-        data: {
-            labels: ['Serum', 'Plasma', 'CSF', 'DNA'],
-            datasets: [{
-                label: 'Alzheimer\'s Disease Samples by Type',
-                data: [],
-                backgroundColor: chartColors.ad
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    charts.als = createSafeChart('als-chart', {
-        type: 'bar',
-        data: {
-            labels: ['Serum', 'Plasma', 'CSF', 'DNA'],
-            datasets: [{
-                label: 'ALS Samples by Type',
-                data: [],
-                backgroundColor: chartColors.als
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    // Demographics tab charts
-    charts.age = createSafeChart('age-chart', {
-        type: 'bar',
-        data: {
-            labels: ['0-20', '21-40', '41-60', '61-80', '81+'],
-            datasets: [{
-                label: 'Age Distribution',
-                data: [],
-                backgroundColor: '#3498db'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-
-    charts.sex = createSafeChart('sex-chart', {
-        type: 'pie',
-        data: {
-            labels: ['Female', 'Male'],
-            datasets: [{
-                data: [],
-                backgroundColor: [chartColors.female, chartColors.male]
-            }]
-        },
-        options: pieChartOptions
-    });
-
-    charts.race = createSafeChart('race-chart', {
-        type: 'bar',
-        data: {
-            labels: ['White', 'African American', 'Asian', 'Hispanic', 'Other'],
-            datasets: [{
-                label: 'Race Distribution',
-                data: [],
-                backgroundColor: '#3498db'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-
-    // Collection trends tab charts
-    charts.monthly = createSafeChart('monthly-chart', {
-        type: 'bar',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Monthly Collections',
-                data: [],
-                backgroundColor: '#3498db'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    charts.typeTrend = createSafeChart('type-trend-chart', {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Serum',
-                    data: [],
-                    borderColor: chartColors.serum,
-                    backgroundColor: chartColors.serum,
-                    tension: 0.2
-                },
-                {
-                    label: 'Plasma',
-                    data: [],
-                    borderColor: chartColors.plasma,
-                    backgroundColor: chartColors.plasma,
-                    tension: 0.2
-                },
-                {
-                    label: 'CSF',
-                    data: [],
-                    borderColor: chartColors.csf,
-                    backgroundColor: chartColors.csf,
-                    tension: 0.2
-                },
-                {
-                    label: 'DNA',
-                    data: [],
-                    borderColor: chartColors.dna,
-                    backgroundColor: chartColors.dna,
-                    tension: 0.2
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    charts.processing = createSafeChart('processing-chart', {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Processed',
-                    data: [],
-                    borderColor: chartColors.processed,
-                    backgroundColor: chartColors.processed,
-                    tension: 0.2
-                },
-                {
-                    label: 'Processing',
-                    data: [],
-                    borderColor: chartColors.processing,
-                    backgroundColor: chartColors.processing,
-                    tension: 0.2
-                },
-                {
-                    label: 'Awaiting Processing',
-                    data: [],
-                    borderColor: chartColors.awaiting,
-                    backgroundColor: chartColors.awaiting,
-                    tension: 0.2
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-}
-
-// Function to safely update a chart
-function updateSafeChart(chart, updateFunction) {
-    if (chart) {
-        try {
-            updateFunction();
-            chart.update();
-        } catch (error) {
-            console.error("Error updating chart:", error);
-        }
-    }
-}
-
-// Function to update dashboard with current filtered data
-function updateDashboard() {
-    console.log("Updating dashboard with filtered data...");
-
-    // Update stats
-    updateStats();
-
-    // Update charts
-    updateCharts();
-}
-
-// Function to update dashboard statistics
-function updateStats() {
-    // Helper function to safely update text content
-    function safeSetTextContent(id, value) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value;
-        } else {
-            console.warn(`Element with id '${id}' not found`);
-        }
-    }
-
-    // Overview stats
-    safeSetTextContent('total-samples', filteredData.length);
-
-    const uniquePatients = new Set(filteredData.map(sample => sample.patient_id)).size;
-    safeSetTextContent('unique-patients', uniquePatients);
-
-    const processed = filteredData.filter(sample => sample.processing_status === 'Processed').length;
-    const processingRate = filteredData.length > 0 ?
-        Math.round((processed / filteredData.length) * 100) + '%' : '0%';
-    safeSetTextContent('processing-status', processingRate);
-
-    // Find latest collection date
-    if (filteredData.length > 0) {
-        const latestDate = new Date(Math.max(...filteredData.map(sample => sample.collectionDate.getTime())));
-        safeSetTextContent('latest-date', latestDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
-    } else {
-        safeSetTextContent('latest-date', 'N/A');
-    }
-
-    // Sample type stats
-    const sampleCounts = {};
-    filteredData.forEach(sample => {
-        sampleCounts[sample.sample_type] = (sampleCounts[sample.sample_type] || 0) + 1;
-    });
-
-    let mostCommonSample = 'N/A';
-    let maxCount = 0;
-
-    for (const type in sampleCounts) {
-        if (sampleCounts[type] > maxCount) {
-            maxCount = sampleCounts[type];
-            mostCommonSample = type;
-        }
-    }
-
-    safeSetTextContent('most-common-sample', mostCommonSample);
-
-    // Calculate average volume
-    const totalVolume = filteredData.reduce((sum, sample) => sum + parseFloat(sample.volume_ml || 0), 0);
-    const avgVolume = filteredData.length > 0 ? (totalVolume / filteredData.length).toFixed(1) : '0.0';
-    safeSetTextContent('avg-volume', avgVolume);
-
-    // Monthly average
-    const monthlyCollections = getMonthlyCollections(filteredData);
-    const monthlyValues = Object.values(monthlyCollections);
-    const monthlyAvg = monthlyValues.length > 0 ?
-        (monthlyValues.reduce((sum, count) => sum + count, 0) / monthlyValues.length).toFixed(1) : '0.0';
-    safeSetTextContent('monthly-avg', monthlyAvg);
-
-    // Growth rate calculation
-    const months = Object.keys(monthlyCollections).sort();
-    if (months.length >= 2) {
-        const firstMonth = monthlyCollections[months[0]];
-        const lastMonth = monthlyCollections[months[months.length - 1]];
-        const growthRate = firstMonth > 0 ?
-            Math.round(((lastMonth - firstMonth) / firstMonth) * 100) + '%' : 'N/A';
-        safeSetTextContent('growth-rate', growthRate);
-    } else {
-        safeSetTextContent('growth-rate', 'N/A');
-    }
-
-    // Disease-specific stats
-    const msData = filteredData.filter(sample => sample.disease_type === 'Multiple Sclerosis');
-    safeSetTextContent('ms-count', msData.length);
-    safeSetTextContent('ms-patients', new Set(msData.map(sample => sample.patient_id)).size);
-
-    const pdData = filteredData.filter(sample => sample.disease_type === 'Parkinson\'s Disease');
-    safeSetTextContent('pd-count', pdData.length);
-    safeSetTextContent('pd-patients', new Set(pdData.map(sample => sample.patient_id)).size);
-
-    const adData = filteredData.filter(sample => sample.disease_type === 'Alzheimer\'s Disease');
-    safeSetTextContent('ad-count', adData.length);
-    safeSetTextContent('ad-patients', new Set(adData.map(sample => sample.patient_id)).size);
-
-    const alsData = filteredData.filter(sample => sample.disease_type === 'ALS');
-    safeSetTextContent('als-count', alsData.length);
-    safeSetTextContent('als-patients', new Set(alsData.map(sample => sample.patient_id)).size);
-
-    // Demographics stats
-    const ages = filteredData.map(sample => parseFloat(sample.age || 0));
-    const avgAge = ages.length > 0 ?
-        (ages.reduce((sum, age) => sum + age, 0) / ages.length).toFixed(1) : '0.0';
-    safeSetTextContent('avg-age', avgAge);
-
-    // Calculate median age
-    if (ages.length > 0) {
-        const sortedAges = [...ages].sort((a, b) => a - b);
-        const midIndex = Math.floor(sortedAges.length / 2);
-        const medianAge = sortedAges.length % 2 === 0
-            ? ((sortedAges[midIndex - 1] + sortedAges[midIndex]) / 2).toFixed(0)
-            : sortedAges[midIndex].toFixed(0);
-        safeSetTextContent('median-age', medianAge);
-    } else {
-        safeSetTextContent('median-age', '0');
-    }
-
-    // Sex counts
-    const femaleCount = filteredData.filter(sample => sample.sex === 'Female').length;
-    const maleCount = filteredData.filter(sample => sample.sex === 'Male').length;
-    safeSetTextContent('female-count', femaleCount);
-    safeSetTextContent('male-count', maleCount);
-
-    // Race counts
-    const whiteCount = filteredData.filter(sample => sample.race === 'White').length;
-    const africanCount = filteredData.filter(sample => sample.race === 'African American').length;
-    const asianCount = filteredData.filter(sample => sample.race === 'Asian').length;
-    const hispanicCount = filteredData.filter(sample => sample.race === 'Hispanic').length;
-    const otherCount = filteredData.filter(sample => !['White', 'African American', 'Asian', 'Hispanic'].includes(sample.race)).length;
-
-    safeSetTextContent('white-count', whiteCount);
-    safeSetTextContent('african-count', africanCount);
-    safeSetTextContent('asian-count', asianCount);
-    safeSetTextContent('hispanic-count', hispanicCount);
-    safeSetTextContent('other-count', otherCount);
-}
-
-// Function to update all charts with filtered data
-function updateCharts() {
-    try {
-        // Overview tab
-        updateOverviewCharts();
-
-        // Disease tab
-        updateDiseaseCharts();
-
-        // Demographics tab
-        updateDemographicsCharts();
-
-        // Collection trends tab
-        updateCollectionTrendsCharts();
-    } catch (error) {
-        console.error("Error updating charts:", error);
-        displayErrorMessage("Error updating charts. Please refresh the page.");
-    }
-}
-
-// Helper function to get monthly collections
-function getMonthlyCollections(data) {
-    const monthlyData = {};
-
-    data.forEach(sample => {
-        if (!sample.collectionDate) return;
-
-        const date = sample.collectionDate;
-        const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-
-        monthlyData[month] = (monthlyData[month] || 0) + 1;
-    });
-
-    return monthlyData;
-}
-
-// Helper function to get monthly collections by sample type
-function getMonthlyCollectionsByType(data) {
-    const monthlyData = {};
-
-    data.forEach(sample => {
-        if (!sample.collectionDate) return;
-
-        const date = sample.collectionDate;
-        const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-
-        if (!monthlyData[month]) {
-            monthlyData[month] = {
-                'Serum': 0,
-                'Plasma': 0,
-                'CSF': 0,
-                'DNA': 0
-            };
-        }
-
-        if (sample.sample_type in monthlyData[month]) {
-            monthlyData[month][sample.sample_type]++;
-        }
-    });
-
-    return monthlyData;
-}
-
-// Helper function to get monthly collections by processing status
-function getMonthlyCollectionsByStatus(data) {
-    const monthlyData = {};
-
-    data.forEach(sample => {
-        if (!sample.collectionDate) return;
-
-        const date = sample.collectionDate;
-        const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-
-        if (!monthlyData[month]) {
-            monthlyData[month] = {
-                'Processed': 0,
-                'Processing': 0,
-                'Awaiting Processing': 0
-            };
-        }
-
-        if (sample.processing_status in monthlyData[month]) {
-            monthlyData[month][sample.processing_status]++;
-        }
-    });
-
-    return monthlyData;
-}
-
-// Helper function to update overview tab charts
-function updateOverviewCharts() {
-    if (!charts.overview || !charts.sampleType || !charts.disease || !charts.trend) {
-        console.log("Overview charts not available, skipping update");
-        return;
-    }
-
-    // Monthly collections bar chart
-    const monthlyData = getMonthlyCollections(filteredData);
-    const months = Object.keys(monthlyData).sort();
-    const monthlyCounts = months.map(month => monthlyData[month]);
-
-    updateSafeChart(charts.overview, () => {
-        charts.overview.data.labels = months.map(month => month.substring(5)); // Just show MM format
-        charts.overview.data.datasets[0].data = monthlyCounts;
-    });
-
-    // Sample type doughnut chart
-    const sampleTypeData = {
-        'Serum': 0,
-        'Plasma': 0,
-        'CSF': 0,
-        'DNA': 0
-    };
-
-    filteredData.forEach(sample => {
-        if (sample.sample_type in sampleTypeData) {
-            sampleTypeData[sample.sample_type]++;
-        }
-    });
-
-    updateSafeChart(charts.sampleType, () => {
-        charts.sampleType.data.datasets[0].data = Object.values(sampleTypeData);
-    });
-
-    // Disease pie chart
-    const diseaseData = {
-        'Multiple Sclerosis': 0,
-        'Parkinson\'s Disease': 0,
-        'Alzheimer\'s Disease': 0,
-        'ALS': 0
-    };
-
-    filteredData.forEach(sample => {
-        if (sample.disease_type in diseaseData) {
-            diseaseData[sample.disease_type]++;
-        }
-    });
-
-    updateSafeChart(charts.disease, () => {
-        charts.disease.data.datasets[0].data = Object.values(diseaseData);
-    });
-
-    // Collection trend line chart
-    updateSafeChart(charts.trend, () => {
-        charts.trend.data.labels = months.map(month => month.substring(5));
-        charts.trend.data.datasets[0].data = monthlyCounts;
-    });
-}
-
-// Helper function to update disease tab charts
-function updateDiseaseCharts() {
-    if (!charts.ms || !charts.pd || !charts.ad || !charts.als) {
-        console.log("Disease charts not available, skipping update");
-        return;
-    }
-
-    // MS chart
-    const msData = filteredData.filter(sample => sample.disease_type === 'Multiple Sclerosis');
-    const msSampleTypes = {
-        'Serum': 0,
-        'Plasma': 0,
-        'CSF': 0,
-        'DNA': 0
-    };
-
-    msData.forEach(sample => {
-        if (sample.sample_type in msSampleTypes) {
-            msSampleTypes[sample.sample_type]++;
-        }
-    });
-
-    updateSafeChart(charts.ms, () => {
-        charts.ms.data.datasets[0].data = Object.values(msSampleTypes);
-    });
-
-    // PD chart
-    const pdData = filteredData.filter(sample => sample.disease_type === 'Parkinson\'s Disease');
-    const pdSampleTypes = {
-        'Serum': 0,
-        'Plasma': 0,
-        'CSF': 0,
-        'DNA': 0
-    };
-
-    pdData.forEach(sample => {
-        if (sample.sample_type in pdSampleTypes) {
-            pdSampleTypes[sample.sample_type]++;
-        }
-    });
-
-    updateSafeChart(charts.pd, () => {
-        charts.pd.data.datasets[0].data = Object.values(pdSampleTypes);
-    });
-
-    // AD chart
-    const adData = filteredData.filter(sample => sample.disease_type === 'Alzheimer\'s Disease');
-    const adSampleTypes = {
-        'Serum': 0,
-        'Plasma': 0,
-        'CSF': 0,
-        'DNA': 0
-    };
-
-    adData.forEach(sample => {
-        if (sample.sample_type in adSampleTypes) {
-            adSampleTypes[sample.sample_type]++;
-        }
-    });
-
-    updateSafeChart(charts.ad, () => {
-        charts.ad.data.datasets[0].data = Object.values(adSampleTypes);
-    });
-
-    // ALS chart
-    const alsData = filteredData.filter(sample => sample.disease_type === 'ALS');
-    const alsSampleTypes = {
-        'Serum': 0,
-        'Plasma': 0,
-        'CSF': 0,
-        'DNA': 0
-    };
-
-    alsData.forEach(sample => {
-        if (sample.sample_type in alsSampleTypes) {
-            alsSampleTypes[sample.sample_type]++;
-        }
-    });
-
-    updateSafeChart(charts.als, () => {
-        charts.als.data.datasets[0].data = Object.values(alsSampleTypes);
-    });
-}
-
-// Helper function to update demographics tab charts
-function updateDemographicsCharts() {
-    if (!charts.age || !charts.sex || !charts.race) {
-        console.log("Demographics charts not available, skipping update");
-        return;
-    }
-
-    // Age distribution chart
-    const ageRanges = {
-        '0-20': 0,
-        '21-40': 0,
-        '41-60': 0,
-        '61-80': 0,
-        '81+': 0
-    };
-
-    filteredData.forEach(sample => {
-        const age = parseInt(sample.age || 0);
-        if (age <= 20) ageRanges['0-20']++;
-        else if (age <= 40) ageRanges['21-40']++;
-        else if (age <= 60) ageRanges['41-60']++;
-        else if (age <= 80) ageRanges['61-80']++;
-        else ageRanges['81+']++;
-    });
-
-    updateSafeChart(charts.age, () => {
-        charts.age.data.datasets[0].data = Object.values(ageRanges);
-    });
-
-    // Sex distribution chart
-    const sexCounts = {
-        'Female': 0,
-        'Male': 0
-    };
-
-    filteredData.forEach(sample => {
-        if (sample.sex in sexCounts) {
-            sexCounts[sample.sex]++;
-        }
-    });
-
-    updateSafeChart(charts.sex, () => {
-        charts.sex.data.datasets[0].data = Object.values(sexCounts);
-    });
-
-    // Race distribution chart
-    const raceCounts = {
-        'White': 0,
-        'African American': 0,
-        'Asian': 0,
-        'Hispanic': 0,
-        'Other': 0
-    };
-
-    filteredData.forEach(sample => {
-        if (['White', 'African American', 'Asian', 'Hispanic'].includes(sample.race)) {
-            raceCounts[sample.race]++;
-        } else {
-            raceCounts['Other']++;
-        }
-    });
-
-    updateSafeChart(charts.race, () => {
-        charts.race.data.datasets[0].data = Object.values(raceCounts);
-    });
-}
-
-// Helper function to update collection trends tab charts
-function updateCollectionTrendsCharts() {
-    if (!charts.monthly || !charts.typeTrend || !charts.processing) {
-        console.log("Collection trend charts not available, skipping update");
-        return;
-    }
-
-    // Monthly collections chart
-    const monthlyData = getMonthlyCollections(filteredData);
-    const months = Object.keys(monthlyData).sort();
-    const monthlyCounts = months.map(month => monthlyData[month]);
-
-    updateSafeChart(charts.monthly, () => {
-        charts.monthly.data.labels = months;
-        charts.monthly.data.datasets[0].data = monthlyCounts;
-    });
-
-    // Sample type trends chart
-    const sampleTypeTrends = getMonthlyCollectionsByType(filteredData);
-
-    updateSafeChart(charts.typeTrend, () => {
-        charts.typeTrend.data.labels = months;
-        charts.typeTrend.data.datasets[0].data = months.map(month => sampleTypeTrends[month]?.Serum || 0);
-        charts.typeTrend.data.datasets[1].data = months.map(month => sampleTypeTrends[month]?.Plasma || 0);
-        charts.typeTrend.data.datasets[2].data = months.map(month => sampleTypeTrends[month]?.CSF || 0);
-        charts.typeTrend.data.datasets[3].data = months.map(month => sampleTypeTrends[month]?.DNA || 0);
-    });
-
-    // Processing status trends chart
-    const processingTrends = getMonthlyCollectionsByStatus(filteredData);
-
-    updateSafeChart(charts.processing, () => {
-        charts.processing.data.labels = months;
-        charts.processing.data.datasets[0].data = months.map(month => processingTrends[month]?.Processed || 0);
-        charts.processing.data.datasets[1].data = months.map(month => processingTrends[month]?.Processing || 0);
-        charts.processing.data.datasets[2].data = months.map(month => processingTrends[month]?.['Awaiting Processing'] || 0);
-    });
-}
-
-
-// Modify the document.addEventListener('DOMContentLoaded') function
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait a short moment to ensure all canvas elements are fully loaded
-    setTimeout(function() {
-        // Fetch sample data
-        fetchSampleData();
-
-        // Set up event listeners
-        document.getElementById('apply-filters').addEventListener('click', applyFilters);
-        document.getElementById('reset-filters').addEventListener('click', resetFilters);
-    }, 100);
-        const tabButtons = document.querySelectorAll('.tab');
-    tabButtons.forEach(button => {
-        // Store the target tab name
-        const tabName = button.textContent.toLowerCase().trim();
-        // Remove the inline onclick attribute if it exists
-        if (button.hasAttribute('onclick')) {
-            button.removeAttribute('onclick');
-        }
-        // Add event listener directly
-        button.addEventListener('click', function(event) {
-            openTabFunction(event, tabName);
-        });
-    });
-});
-function openTabFunction(evt, tabName) {
-    console.log(`Opening tab: ${tabName}`);
-
-    try {
-        // Hide all tab content
-        const tabContent = document.getElementsByClassName('tab-content');
-        for (let i = 0; i < tabContent.length; i++) {
-            tabContent[i].classList.remove('active');
-        }
-
-        // Remove 'active' class from all tabs
-        const tabs = document.getElementsByClassName('tab');
-        for (let i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('active');
-        }
-
-        // Show the selected tab content
-        const selectedTab = document.getElementById(tabName);
-        if (selectedTab) {
-            selectedTab.classList.add('active');
-        } else {
-            console.warn(`Tab content with id '${tabName}' not found`);
-            return;
-        }
-
-        // Mark the button as active
-        if (evt && evt.currentTarget) {
-            evt.currentTarget.classList.add('active');
-        }
-
-        // Update charts for the visible tab
-        if (chartInitialized) {
-            updateDashboard();
-        }
-    } catch (error) {
-        console.error(`Error opening tab ${tabName}:`, error);
-    }
-}
-
-// Define a global openTab function to handle any remaining inline onclick calls
-function openTab(evt, tabName) {
-    openTabFunction(evt, tabName);
-}
-document.addEventListener('DOMContentLoaded', function() {
-    // Map tab names to actual tab IDs
-    const tabMap = {
-        'overview': 'overview',
-        'disease analysis': 'disease', // Fix for "disease analysis" -> "disease"
-        'demographics': 'demographics',
-        'collection trends': 'collection' // Fix for "collection trends" -> "collection"
-    };
-
-    // Update the tab click handler
-    const tabButtons = document.querySelectorAll('.tab');
-    tabButtons.forEach(button => {
-        // Remove any existing event handlers to avoid duplicates
-        const clone = button.cloneNode(true);
-        button.parentNode.replaceChild(clone, button);
-
-        // Add new event handler with correct mapping
-        clone.addEventListener('click', function(event) {
-            const clickedTabName = this.textContent.toLowerCase().trim();
-            const targetTabId = tabMap[clickedTabName] || clickedTabName;
-            console.log(`Tab clicked: "${clickedTabName}" -> mapped to ID: "${targetTabId}"`);
-            openTabFixed(event, targetTabId);
-        });
-
-        // Remove any inline onclick attributes
-        if (clone.hasAttribute('onclick')) {
-            clone.removeAttribute('onclick');
-        }
-    });
-
-    // Also fix the global openTab function for any remaining inline handlers
-    window.openTab = function(evt, tabName) {
-        const targetTabId = tabMap[tabName.toLowerCase()] || tabName;
-        console.log(`openTab called with: "${tabName}" -> mapped to ID: "${targetTabId}"`);
-        openTabFixed(evt, targetTabId);
-    };
-
-    // The actual tab switching function
-    function openTabFixed(evt, tabId) {
-        console.log(`Opening tab with ID: ${tabId}`);
-
-        // Hide all tab content
-        const tabContent = document.getElementsByClassName('tab-content');
-        for (let i = 0; i < tabContent.length; i++) {
-            tabContent[i].classList.remove('active');
-        }
-
-        // Remove 'active' class from all tabs
-        const tabs = document.getElementsByClassName('tab');
-        for (let i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('active');
-        }
-
-        // Show the selected tab content
-        const selectedTab = document.getElementById(tabId);
-        if (selectedTab) {
-            selectedTab.classList.add('active');
-
-            // Update charts if needed for this tab
-            if (chartInitialized) {
-                // Force all charts on the active tab to update
-                const chartCanvases = selectedTab.querySelectorAll('canvas');
-                if (chartCanvases.length > 0) {
-                    console.log(`Updating ${chartCanvases.length} charts on tab: ${tabId}`);
-
-                    // Delay slightly to ensure the tab content is visible
-                    setTimeout(() => {
-                        // Force window resize to trigger chart redraw
-                        window.dispatchEvent(new Event('resize'));
-
-                        // Update dashboard data
-                        updateDashboard();
-                    }, 100);
-                }
-            }
-        } else {
-            console.error(`Tab content with id '${tabId}' not found`);
-            return;
-        }
-
-        // Mark the clicked button as active
-        if (evt && evt.currentTarget) {
-            evt.currentTarget.classList.add('active');
-        } else {
-            // Find the tab button with matching text and mark it active
-            const tabButtons = document.getElementsByClassName('tab');
-            for (let i = 0; i < tabButtons.length; i++) {
-                // Find by text content
-                for (const [name, id] of Object.entries(tabMap)) {
-                    if (id === tabId && tabButtons[i].textContent.toLowerCase().trim() === name) {
-                        tabButtons[i].classList.add('active');
-                        break;
-                    }
-                }
-            }
-        }
-    }
-});
-document.addEventListener('DOMContentLoaded', function() {
-    // Fix for disease and demographics tabs not rendering
-    const tabFixMap = {
-        'disease': ['ms-chart', 'pd-chart', 'ad-chart', 'als-chart'],
-        'demographics': ['age-chart', 'sex-chart', 'race-chart']
-    };
-
-    // Enhanced tab switching with better chart rendering
-    const originalOpenTabFixed = window.openTabFixed;
-    if (typeof originalOpenTabFixed === 'function') {
-        window.openTabFixed = function(evt, tabId) {
-            // Call the original function first
-            originalOpenTabFixed(evt, tabId);
-
-            // Special handling for tabs with rendering issues
-            if (tabId in tabFixMap) {
-                console.log(`Applying special rendering fix for tab: ${tabId}`);
-
-                // Add a slight delay to ensure the tab is visible
-                setTimeout(() => {
-                    // Force window resize to trigger chart redraw
-                    window.dispatchEvent(new Event('resize'));
-
-                    // For each chart in this tab, force a redraw
-                    tabFixMap[tabId].forEach(chartId => {
-                        const chartCanvas = document.getElementById(chartId);
-                        if (chartCanvas && charts[chartId.split('-')[0]]) {
-                            console.log(`Forcing redraw of chart: ${chartId}`);
-                            try {
-                                charts[chartId.split('-')[0]].update();
-                            } catch (e) {
-                                console.warn(`Could not update chart ${chartId}:`, e);
-                            }
-                        }
-                    });
-
-                    // Update dashboard data again after slight delay
-                    setTimeout(updateDashboard, 100);
-                }, 200);
-            }
-        };
-    } else {
-        console.warn("openTabFixed function not found - tab rendering fix not applied");
-    }
-});
-
-</script>
 {% endblock %}
 

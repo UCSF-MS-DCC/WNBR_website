@@ -1,5 +1,9 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory, abort, Response, make_response, url_for, redirect, flash
 from werkzeug.utils import secure_filename
+import requests
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField, SubmitField
+from wtforms.validators import DataRequired, Email
 import os
 import json
 import hashlib
@@ -12,6 +16,8 @@ from email_form_handler import init_email_form_handler, ContactForm
 from flask_mail import Mail, Message
 app = Flask(__name__)
 mail = init_email_form_handler(app)
+
+SLACK_WEBHOOK_URL = os.environ.get('SLACK_WEBHOOK_URL')
 
 app.config['REPORTS_FOLDER'] = os.path.join(app.root_path, 'reports')
 app.config['USERS_FILE'] = os.path.join(app.root_path, 'users.json')
@@ -75,42 +81,97 @@ def check_auth(username, password):
         app.logger.error(f"Error reading users file: {app.config['USERS_FILE']}")
         return False
 
+class ContactForm(FlaskForm):
+    """Contact form model."""
+    name = StringField('Your Name', validators=[DataRequired()])
+    email = StringField('Your Email', validators=[DataRequired(), Email(message='Enter a valid email.')])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send Message')
+
+def send_to_slack(name, email, subject, message):
+    """
+    Formats the form data and sends it to a Slack channel via a webhook.
+    """
+    if not SLACK_WEBHOOK_URL:
+        # Log an error if the webhook URL is not configured.
+        app.logger.error("SLACK_WEBHOOK_URL is not configured.")
+        return False
+
+    # This is the message payload that Slack's API expects.
+    # We use "blocks" for a richer message format.
+    slack_payload = {
+        "blocks": [
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f":envelope_with_arrow: *New WNBR Inquiry Submission*"
+                }
+            },
+            {
+                "type": "divider"
+            },
+            {
+                "type": "section",
+                "fields": [
+                    {"type": "mrkdwn", "text": f"*Name:*\n{name}"},
+                    {"type": "mrkdwn", "text": f"*Email:*\n<{email}|{email}>"}
+                ]
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"*Subject:*\n{subject}"
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"*Message:*\n{message}"
+                }
+            }
+        ]
+    }
+
+    try:
+        # Send the POST request to the Slack webhook URL.
+        response = requests.post(SLACK_WEBHOOK_URL, json=slack_payload)
+        response.raise_for_status()  # Raise an exception for bad status codes (4xx or 5xx)
+        return True
+    except requests.exceptions.RequestException as e:
+        # Log any exceptions that occur during the request.
+        app.logger.error(f"Error sending message to Slack: {e}")
+        return False
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # Explicitly create a new form instance
+    """
+    Handles both displaying the form (GET) and processing the submission (POST).
+    """
     form = ContactForm()
+    # The validate_on_submit() method checks if it's a POST request and if the data is valid.
+    if form.validate_on_submit():
+        # Retrieve the validated data from the form object.
+        name = form.name.data
+        email = form.email.data
+        subject = form.subject.data
+        message = form.message.data
 
-    # When form is submitted and valid
-    if request.method == 'POST' and form.validate_on_submit():
-        try:
-            # Create the email message
-            msg = Message(
-                subject=f"Contact Form: {form.subject.data}",
-                recipients=[app.config['RECIPIENT_EMAIL']],
-                body=f"""
-                Name: {form.name.data}
-                Email: {form.email.data}
+        # Send the data to your Slack channel.
+        if send_to_slack(name, email, subject, message):
+            flash('Thank you for your message. It has been sent!', 'success')
+        else:
+            flash('Sorry, there was an error sending your message. Please try again later.', 'danger')
 
-                {form.message.data}
-                """,
-                reply_to=form.email.data
-            )
+        # It's good practice to redirect after a successful POST to prevent duplicate submissions.
+        # However, for this example, we'll just re-render the template.
+        return render_template('index.html', form=ContactForm())
 
-            # Send the email
-            mail.send(msg)
-
-            flash('Your message has been sent successfully!', 'success')
-            return redirect(url_for('contact'))
-
-        except Exception as e:
-            flash(f'An error occurred: {str(e)}', 'danger')
-            print(f"Email error: {str(e)}")  # Log the error
-
-    # Always pass the form to the template
-    return render_template("index.html", form=form)
-
-
+    # If it's a GET request or the form is invalid, just render the template with the form.
+    return render_template('index.html', form=form)
 @app.route('/biobank/index')
 def biobankindex():
     return render_template("/biobank/index.html", page_title="Biobank Index")

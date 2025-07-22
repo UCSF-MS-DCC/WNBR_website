@@ -89,6 +89,12 @@ class ContactForm(FlaskForm):
     message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Send Message')
 
+class DataRequestForm(FlaskForm):
+    """Data request form model."""
+    email = StringField('Email Address', validators=[DataRequired(), Email()])
+    data_points = TextAreaField('Data Points', validators=[DataRequired()])
+    submit = SubmitField('Submit Request')
+
 def send_to_slack(name, email, subject, message):
     """
     Formats the form data and sends it to a Slack channel via a webhook.
@@ -143,6 +149,30 @@ def send_to_slack(name, email, subject, message):
         return True
     except requests.exceptions.RequestException as e:
         # Log any exceptions that occur during the request.
+        app.logger.error(f"Error sending message to Slack: {e}")
+        return False
+
+def send_data_request_to_slack(email, data_points):
+    """
+    Formats the data request form data and sends it to a Slack channel.
+    """
+    if not SLACK_WEBHOOK_URL:
+        app.logger.error("SLACK_WEBHOOK_URL is not configured.")
+        return False
+
+    slack_payload = {
+        "blocks": [
+            {"type": "section", "text": {"type": "mrkdwn", "text": ":bar_chart: *New Data Report Request*"}},
+            {"type": "divider"},
+            {"type": "section", "text": {"type": "mrkdwn", "text": f"*Requester Email:*\n<{email}|{email}>"}},
+            {"type": "section", "text": {"type": "mrkdwn", "text": f"*Requested Data Points:*\n{data_points}"}}
+        ]
+    }
+    try:
+        response = requests.post(SLACK_WEBHOOK_URL, json=slack_payload)
+        response.raise_for_status()
+        return True
+    except requests.exceptions.RequestException as e:
         app.logger.error(f"Error sending message to Slack: {e}")
         return False
 
@@ -207,11 +237,18 @@ def biobankteam2():
     return render_template("/biobank/team2.html")
 
 
-@app.route('/dataservices/index')
+@app.route('/dataservices/index', methods=['GET', 'POST'])
 def dataservicesindex():
     # Make sure sample data is initialized
     initialize_sample_data()
-    return render_template("/dataservices/index.html", page_title="Data Services")
+    form = DataRequestForm()
+    if form.validate_on_submit():
+        if send_data_request_to_slack(form.email.data, form.data_points.data):
+            flash('Your data request has been submitted successfully!', 'success')
+        else:
+            flash('There was an error submitting your request. Please try again later.', 'danger')
+        return redirect(url_for('data_request'))
+    return render_template("/dataservices/index.html", page_title="Data Services", form=form)
 
 
 @app.route('/dataservices/datarequest')

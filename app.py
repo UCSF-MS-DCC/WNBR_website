@@ -247,7 +247,7 @@ def dataservicesindex():
             flash('Your data request has been submitted successfully!', 'success')
         else:
             flash('There was an error submitting your request. Please try again later.', 'danger')
-        return redirect(url_for('data_request'))
+        return redirect(url_for('dataservicesindex'))
     return render_template("/dataservices/index.html", page_title="Data Services", form=form)
 
 

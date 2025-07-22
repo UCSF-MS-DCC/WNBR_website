@@ -209,19 +209,40 @@
 {#                        <hr>#}
                         <!-- Form section -->
                         <h4 class="form-heading">Can't find the report you need? Please submit your requirements in the form below to request a new samples report</h4>
-                        <form class="pure-form pure-form-stacked">
+                        <!-- Flash messages will appear here -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <!-- The form action points to our new 'data_request' route -->
+                        <form method="POST" action="{{ url_for('dataservicesindex') }}" class="pure-form pure-form-stacked">
+                            {{ form.hidden_tag() }}
                             <fieldset>
                                 <div class="form-group">
-                                    <label for="email">Email Address</label>
-                                    <input id="email" type="email" class="pure-input-1" placeholder="your.email@example.com" required>
+                                    {{ form.email.label }}
+                                    {{ form.email(class="pure-input-1", placeholder="your.email@example.com") }}
+                                    {% if form.email.errors %}
+                                        {% for error in form.email.errors %}
+                                            <span class="form-error">{{ error }}</span>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="data-points">Data Points</label>
-                                    <textarea id="data-points" class="pure-input-1" placeholder="List columns, variables, or other data points needed for your samples report."></textarea>
+                                    {{ form.data_points.label }}
+                                    {{ form.data_points(class="pure-input-1", rows=6, placeholder="List columns, variables, or other data points needed for your samples report.") }}
+                                    {% if form.data_points.errors %}
+                                        {% for error in form.data_points.errors %}
+                                            <span class="form-error">{{ error }}</span>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
 
-                                <button type="submit" class="pure-button pure-button-primary submit-btn">Submit Request</button>
+                                {{ form.submit(class="pure-button pure-button-primary submit-btn") }}
                             </fieldset>
                         </form>
                     </div>

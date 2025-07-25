@@ -43,3 +43,6 @@ _Sample_Collection_Data.csv
 # Data files
 data/
 static/data/
+
+.DS_Store
+templates/biobank/lims.html
